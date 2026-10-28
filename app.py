@@ -854,8 +854,10 @@ def previa_pdf_html(df, modelo, periodo):
 # 9. TEMAS E CSS
 # =========================================================
 
-tema_escuro = False
+if "modelo_selecionado" not in st.session_state:
+    st.session_state.modelo_selecionado = "empObr"
 
+tema_escuro = False   # tema fixo claro
 
 variaveis = """
     --fundo: #F3F5F8;
