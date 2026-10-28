@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            color-scheme: light;
+
+            --verde: #93C73E;
+            --verde-escuro: #78AD25;
+            --verde-claro: #F7FAF1;
+            --fundo-card: #FFFFFF;
+            --fundo-icone: #EEF3E6;
+            --texto: #494949;
+            --texto-secundario: #64748B;
+            --borda: #D9E0E8;
+            --foco: #78AD25;
+        }
+
+        :root.escuro {
+            color-scheme: dark;
+
+            --fundo-card: #222830;
+            --fundo-icone: #303A29;
+            --verde-claro: #29351C;
+            --texto: #F1F5F9;
+            --texto-secundario: #A7B0BC;
+            --borda: #3B434D;
+            --foco: #93C73E;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: Inter, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", sans-serif;
+        }
+
+        .lista-cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            width: 100%;
+            padding: 3px;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            width: 100%;
+            min-width: 0;
+            min-height: 126px;
+            padding: 17px;
+            border: 1px solid var(--borda);
+            border-radius: 14px;
+            background: var(--fundo-card);
+            color: var(--texto);
+            text-align: left;
+            cursor: pointer;
+            font: inherit;
+            transition:
+                border-color 160ms ease,
+                background-color 160ms ease,
+                transform 160ms ease,
+                box-shadow 160ms ease;
+        }
+
+        .card:hover {
+            border-color: var(--verde);
+            background: var(--verde-claro);
+            transform: translateY(-1px);
+        }
+
+        .card.selecionado {
+            border: 2px solid var(--verde);
+            background: var(--verde-claro);
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(120, 173, 37, 0.08);
+        }
+
+        .card:focus-visible {
+            outline: 3px solid var(--foco);
+            outline-offset: 3px;
+        }
+
+        .icone {
+            display: flex;
+            flex: 0 0 52px;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: var(--fundo-icone);
+            color: var(--verde-escuro);
+        }
+
+        .icone svg {
+            width: 26px;
+            height: 26px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .conteudo {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .titulo {
+            margin-bottom: 7px;
+            color: var(--texto);
+            font-size: 14px;
+            font-weight: 750;
+            line-height: 1.4;
+        }
+
+        .descricao {
+            color: var(--texto-secundario);
+            font-size: 12px;
+            line-height: 1.55;
+            overflow-wrap: anywhere;
+        }
+
+        .marcador {
+            display: flex;
+            flex: 0 0 22px;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border: 1.5px solid var(--borda);
+            border-radius: 50%;
+            color: transparent;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .selecionado .marcador {
+            border-color: var(--verde-escuro);
+            background: var(--verde);
+            color: #17200B;
+        }
+
+        @media (max-width: 540px) {
+            .lista-cards {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 10px;
+            }
+
+            .card {
+                min-height: 100px;
+                padding: 13px;
+            }
+
+            .card.selecionado {
+                padding: 12px;
+            }
+
+            .icone {
+                flex-basis: 44px;
+                width: 44px;
+                height: 44px;
+            }
+
+            .icone svg {
+                width: 23px;
+                height: 23px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lista-cards" role="group"
+         aria-label="Modelo do relatório">
+
+        <button
+            id="card-empObr"
+            class="card"
+            type="button"
+            aria-pressed="false"
+            onclick="selecionar('empObr')">
+
+            <div class="icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="7" width="18" height="13" rx="2"/>
+                    <path d="M8 7V4h8v3"/>
+                    <path d="M3 12h18"/>
+                    <path d="M10 12v2h4v-2"/>
+                </svg>
+            </div>
+
+            <div class="conteudo">
+                <div class="titulo">Empresa e Obra</div>
+                <div class="descricao">
+                    Organize os pagamentos por empresa, obra e fornecedor.
+                </div>
+            </div>
+
+            <div class="marcador" id="marcador-empObr"
+                 aria-hidden="true"></div>
+        </button>
+
+        <button
+            id="card-fornecedor"
+            class="card"
+            type="button"
+            aria-pressed="false"
+            onclick="selecionar('fornecedor')">
+
+            <div class="icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="9" cy="8" r="3.5"/>
+                    <path d="M2.5 20v-1.5a6.5 6.5 0 0 1 13 0V20"/>
+                    <path d="M16 5a3.5 3.5 0 0 1 0 6.8"/>
+                    <path d="M18 14a5 5 0 0 1 3.5 4.5V20"/>
+                </svg>
+            </div>
+
+            <div class="conteudo">
+                <div class="titulo">Por Fornecedor</div>
+                <div class="descricao">
+                    Consolide os pagamentos e compare os fornecedores
+                    pelo total pago.
+                </div>
+            </div>
+
+            <div class="marcador" id="marcador-fornecedor"
+                 aria-hidden="true"></div>
+        </button>
+    </div>
+
+    <script>
+        let modeloSelecionado = "empObr";
+        let temaEscuro = false;
+
+        function enviarMensagem(tipo, dados = {}) {
+            window.parent.postMessage({
+                isStreamlitMessage: true,
+                type: tipo,
+                ...dados
+            }, "*");
+        }
+
+        function atualizarCards() {
+            const modelos = ["empObr", "fornecedor"];
+
+            modelos.forEach(modelo => {
+                const card = document.getElementById("card-" + modelo);
+                const marcador = document.getElementById(
+                    "marcador-" + modelo
+                );
+
+                if (!card || !marcador) return;
+
+                const selecionado = modeloSelecionado === modelo;
+
+                card.classList.toggle("selecionado", selecionado);
+                card.setAttribute(
+                    "aria-pressed",
+                    selecionado ? "true" : "false"
+                );
+
+                marcador.textContent = selecionado ? "✓" : "";
+            });
+        }
+
+        function aplicarTema(escuro) {
+            temaEscuro = Boolean(escuro);
+            document.documentElement.classList.toggle(
+                "escuro",
+                temaEscuro
+            );
+        }
+
+        function selecionar(modelo) {
+            if (!["empObr", "fornecedor"].includes(modelo)) return;
+            if (modelo === modeloSelecionado) return;
+
+            modeloSelecionado = modelo;
+            atualizarCards();
+
+            enviarMensagem("streamlit:setComponentValue", {
+                value: modelo
+            });
+        }
+
+        window.addEventListener("message", function(event) {
+            const mensagem = event.data;
+
+            if (!mensagem || mensagem.type !== "streamlit:render") {
+                return;
+            }
+
+            const args = mensagem.args || {};
+
+            if (["empObr", "fornecedor"].includes(args.valor_inicial)) {
+                modeloSelecionado = args.valor_inicial;
+            }
+
+            aplicarTema(args.tema_escuro === true);
+            atualizarCards();
+
+            enviarMensagem("streamlit:setFrameHeight", {
+                height: document.body.scrollHeight
+            });
+        });
+
+        enviarMensagem("streamlit:componentReady", {
+            apiVersion: 1
+        });
+
+        aplicarTema(false);
+        atualizarCards();
+    </script>
+</body>
+</html>
