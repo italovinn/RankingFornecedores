@@ -1510,15 +1510,6 @@ with aba_ranking:
     CAMINHO_COMPONENTE = Path(__file__).resolve().parent / "selecionarCard"
     CAMINHO_HTML = CAMINHO_COMPONENTE / "index.html"
 
-    if not CAMINHO_COMPONENTE.is_dir():
-        st.error("A pasta selecionarcard não foi encontrada no servidor.")
-        st.code(str(CAMINHO_COMPONENTE))
-        st.stop()
-
-    if not CAMINHO_HTML.is_file():
-        st.error("O arquivo selecionarcard/index.html não foi encontrado.")
-        st.stop()
-
     selecionarCard = declare_component(
         "selecionarCard",
         path=str(CAMINHO_COMPONENTE),
