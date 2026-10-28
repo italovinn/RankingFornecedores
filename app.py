@@ -1507,7 +1507,7 @@ with aba_ranking:
 
     from streamlit.components.v1 import declare_component
 
-    CAMINHO_COMPONENTE = Path(__file__).resolve().parent / "selecionarcard"
+    CAMINHO_COMPONENTE = Path(__file__).resolve().parent / "selecionarCard"
     CAMINHO_HTML = CAMINHO_COMPONENTE / "index.html"
 
     if not CAMINHO_COMPONENTE.is_dir():
