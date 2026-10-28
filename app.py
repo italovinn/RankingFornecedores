@@ -854,36 +854,19 @@ def previa_pdf_html(df, modelo, periodo):
 # 9. TEMAS E CSS
 # =========================================================
 
-if "modelo_selecionado" not in st.session_state:
-    st.session_state.modelo_selecionado = "empObr"
+tema_escuro = False
 
-if "tema_escuro" not in st.session_state:
-    st.session_state.tema_escuro = False
 
-tema_escuro = st.session_state.tema_escuro
-
-if tema_escuro:
-    variaveis = """
-        --fundo: #171B20;
-        --superficie: #222830;
-        --superficie-secundaria: #292F38;
-        --texto: #F1F5F9;
-        --texto-secundario: #A7B0BC;
-        --borda: #3B434D;
-        --verde-claro: #29351C;
-        --campo: #20262D;
-    """
-else:
-    variaveis = """
-        --fundo: #F3F5F8;
-        --superficie: #FFFFFF;
-        --superficie-secundaria: #F7FAF1;
-        --texto: #494949;
-        --texto-secundario: #64748B;
-        --borda: #D9E0E8;
-        --verde-claro: #F7FAF1;
-        --campo: #FFFFFF;
-    """
+variaveis = """
+    --fundo: #F3F5F8;
+    --superficie: #FFFFFF;
+    --superficie-secundaria: #F7FAF1;
+    --texto: #494949;
+    --texto-secundario: #64748B;
+    --borda: #D9E0E8;
+    --verde-claro: #F7FAF1;
+    --campo: #FFFFFF;
+"""
 
 st.markdown(
     f"""
@@ -1483,27 +1466,13 @@ with aba_ranking:
     # 10. CABEÇALHO E SELEÇÃO DO MODELO
     # =========================================================
 
-    cabecalho_col, tema_col = st.columns([5, 1])
-
-    with cabecalho_col:
-        st.markdown(
-            '<div class="titulo-pagina">Ranking de Fornecedores</div>'
-            '<div class="descricao-pagina">'
-            'Analise e consolide os pagamentos por empresa, obra e fornecedor.'
-            '</div>',
-            unsafe_allow_html=True,
-        )
-
-    with tema_col:
-        novo_tema = st.toggle(
-            "Tema escuro",
-            value=st.session_state.tema_escuro,
-            key="controle_tema",
-        )
-
-        if novo_tema != st.session_state.tema_escuro:
-            st.session_state.tema_escuro = novo_tema
-            st.rerun()
+    st.markdown(
+        '<div class="titulo-pagina">Ranking de Fornecedores</div>'
+        '<div class="descricao-pagina">'
+        'Analise e consolide os pagamentos por empresa, obra e fornecedor.'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
     from streamlit.components.v1 import declare_component
 
@@ -1513,6 +1482,13 @@ with aba_ranking:
     selecionarCard = declare_component(
         "selecionarCard",
         path=str(CAMINHO_COMPONENTE),
+    )
+
+    valor_modelo = selecionarCard(
+        valor_inicial=st.session_state.modelo_selecionado,
+        tema_escuro=False,
+        key="seletor_modelos",
+        default=st.session_state.modelo_selecionado,
     )
 
     st.markdown(
