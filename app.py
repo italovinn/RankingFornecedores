@@ -3,6 +3,7 @@ import logging
 import time
 from io import BytesIO
 import streamlit.components.v1 as components
+from pathlib import Path
 
 import pandas as pd
 import pyodbc as db
@@ -1505,10 +1506,12 @@ with aba_ranking:
             st.rerun()
 
     from streamlit.components.v1 import declare_component
+    
+    CAMINHO_COMPONENTE = Path(__file__).resolve().parent / "selecionarcard"
 
     selecionarCard = declare_component(
         "selecionarCard",
-        path="selecionarcard",
+        path=str(CAMINHO_COMPONENTE),
     )
 
     st.markdown(
