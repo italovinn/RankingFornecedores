@@ -1498,13 +1498,6 @@ with aba_ranking:
         unsafe_allow_html=True,
     )
 
-    valor_modelo = selecionarCard(
-        valor_inicial=st.session_state.modelo_selecionado,
-        tema_escuro=st.session_state.tema_escuro,
-        key="seletor_modelos",
-        default=st.session_state.modelo_selecionado,
-    )
-
     if valor_modelo in MODELOS:
         if valor_modelo != st.session_state.modelo_selecionado:
             st.session_state.modelo_selecionado = valor_modelo
